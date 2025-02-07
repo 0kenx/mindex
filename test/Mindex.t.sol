@@ -21,12 +21,12 @@ contract MindexTest is Test {
     function test_Swap() public {
         dex.mint(10000000000, 1000000000);
         dex.add_liquidity(1000000, 100000, 1);
-        uint reserve0_old = dex.reserves(0);
-        uint reserve1_old = dex.reserves(1);
+        uint256 reserve0_old = dex.reserves(0);
+        uint256 reserve1_old = dex.reserves(1);
         console.log(reserve0_old, reserve1_old);
         dex.swap(true, 100, 1);
-        uint reserve0_new = dex.reserves(0);
-        uint reserve1_new = dex.reserves(1);
+        uint256 reserve0_new = dex.reserves(0);
+        uint256 reserve1_new = dex.reserves(1);
         console.log(reserve0_new, reserve1_new);
         assertApproxEqAbs(reserve0_old * reserve1_old, reserve0_new * reserve1_new, 10000);
     }

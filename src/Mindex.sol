@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
+
 import {Test, console} from "forge-std/Test.sol";
+
 contract Mindex {
     mapping(address => uint128[2]) public wallets;
     uint128[2] public reserves;
@@ -23,8 +25,9 @@ contract Mindex {
         require(wallet[0] >= amount0 && wallet[1] >= amount1, "Insufficient funds");
         wallet[0] -= amount0;
         wallet[1] -= amount1;
-        require((reserves[0] + amount0) * (reserves[1] + amount1) - amount0 * amount1 
-            > min_lp * min_lp, "Slippage too high");
+        require(
+            (reserves[0] + amount0) * (reserves[1] + amount1) - amount0 * amount1 > min_lp * min_lp, "Slippage too high"
+        );
         reserves[0] += amount0;
         reserves[1] += amount1;
     }
@@ -34,7 +37,7 @@ contract Mindex {
     // Swap curve is x*y = C
     function swap(bool dir, uint128 amount_in, uint128 amount_out_min) public {
         uint128[2] storage wallet = wallets[msg.sender];
-        uint out;
+        uint256 out;
         if (dir) {
             require(wallet[0] >= amount_in, "Insufficient funds");
             wallet[0] -= amount_in;
